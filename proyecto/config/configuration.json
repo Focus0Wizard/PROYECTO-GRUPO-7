@@ -1,0 +1,8 @@
+{
+  "persistence": {
+    "type": "local",
+    "configuration": {
+      "basePath": "ggwp"
+    }
+  }
+}

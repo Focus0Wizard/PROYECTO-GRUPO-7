@@ -1,0 +1,61 @@
+@startuml
+
+package "entidad / model" <<Folder>> {
+    class Product {
+        - id
+        - name
+        - details
+        - quantity
+        - price
+    }
+}
+
+package "vista / view" <<Folder>> {
+    class ProductView {
+        + read()
+        + show()
+    }
+}
+
+package "util" <<Folder>> {
+    interface Singleton {
+    }
+    Singleton <|- ProductView
+}
+
+package "persistence" <<Database>> {
+    abstract class PersistenceManager {
+    }
+    class LocalPersistence {
+    }
+    PersistenceManager <|- LocalPersistence
+}
+
+package "repository" <<Folder>> {
+    class ProductRepository {
+        - PersistenceManager
+    }
+}
+package "control / service" <<Folder>> {
+    class ProductService {
+        - ProductRepository
+    }
+}
+
+package "controller" <<Folder>> {
+    class ProductController {
+    - ProductService
+    }
+}
+
+ProductRepository ..> Product : uses
+ProductView ..> Product : uses
+ProductService ..> Product : uses
+
+ProductService *-right- ProductRepository
+ProductController *-- ProductService
+ProductController *-left- ProductView
+ProductRepository *-- PersistenceManager
+
+
+@enduml
